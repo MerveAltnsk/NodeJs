@@ -5,15 +5,15 @@
 */
 
 import inquirer from 'inquirer';
-
-var qr = require('qr-image');
+import qr from 'qr-image';
+import fs from 'fs';
 
 
 // Get user input and save it to a text file
 inquirer
   .prompt([
     {
-      message: "Type in your URL",
+      message: "Type in your URL: ",
       name: "userInput",
     }
     
@@ -21,8 +21,15 @@ inquirer
   .then((answers) => {
     // Use user feedback for... whatever!!
     const url = answers.userInput;
-    var qr_svg = qr.image(userInput);
-    qr_svg.pipe(require('fs').createWriteStream('i_love_qr.svg'));
+    var qr_svg = qr.image(url);
+    qr_svg.pipe(fs.createWriteStream("qr_img.png"));
+
+    
+    fs.writeFile('URL.txt', url, (err) => {
+    if (err) throw err;
+    console.log('Input file has been saved!');
+  });
+  
   })
   .catch((error) => {
     if (error.isTtyError) {
@@ -33,12 +40,5 @@ inquirer
   });
 
 
+ 
 
-// Save user input to a text file
-const fs = require('fs');
-
-
-fs.writeFile('input.txt', userInput, (err) => {
-  if (err) throw err;
-  console.log('Input file has been saved!');
-});
