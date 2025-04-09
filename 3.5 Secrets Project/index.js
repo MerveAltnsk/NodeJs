@@ -12,7 +12,9 @@ var userIsAuthorised = false;
 app.use(bodyParser.urlencoded({ extended: true }));
 
 function passwordCheck(req, res, next) {
-  const password = req.body["password"];
+  const password = req.body["password"];    // Kullanıcının parola alanına girdiği değeri alır  name = "password" olan input elemanından gelir
+  // req.body["password"] ile gelen veriyi alırız
+
   if (password === "ILoveProgramming") {
     userIsAuthorised = true;
   }
